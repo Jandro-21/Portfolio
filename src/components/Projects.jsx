@@ -1,18 +1,11 @@
+import GradientText from './GradientText'
+import BorderGlow from './BorderGlow'
 import projects from '../data/projects'
 
 const SECTION_CLASSES = 'py-24 px-4'
 const CONTAINER_CLASSES = 'max-w-6xl mx-auto'
-const TITLE_CLASSES = 'text-3xl font-bold text-neutral-900 dark:text-white mb-2'
-const SUBTITLE_CLASSES = 'text-neutral-500 dark:text-neutral-400 mb-12 max-w-lg'
+const SUBTITLE_CLASSES = 'text-neutral-400 mb-12 max-w-lg'
 const GRID_CLASSES = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
-const CARD_CLASSES = 'group p-6 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-800/50 hover:border-indigo-500/50 hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-300'
-const CARD_ID_CLASSES = 'text-xs text-indigo-600 dark:text-indigo-400 font-mono'
-const CARD_TITLE_CLASSES = 'text-lg font-semibold text-neutral-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors'
-const CARD_DESC_CLASSES = 'text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4'
-const TECH_WRAPPER_CLASSES = 'flex flex-wrap gap-1.5 mb-4'
-const TECH_BADGE_CLASSES = 'px-2 py-0.5 text-xs font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 rounded'
-const LINK_WRAPPER_CLASSES = 'flex gap-3 pt-2 border-t border-neutral-100 dark:border-neutral-800'
-const LINK_CLASSES = 'text-xs text-neutral-500 dark:text-neutral-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1'
 
 function GithubIcon() {
   return (
@@ -34,45 +27,68 @@ export default function Projects() {
   return (
     <section id="projects" className={SECTION_CLASSES}>
       <div className={CONTAINER_CLASSES}>
-        <h2 className={TITLE_CLASSES}>Projects</h2>
+        <GradientText
+          colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
+          animationSpeed={3}
+          showBorder
+          className="text-3xl font-bold mb-2"
+        >
+          Projects
+        </GradientText>
         <p className={SUBTITLE_CLASSES}>
           A selection of projects I've built, each with its own story and technical challenges.
         </p>
 
         <div className={GRID_CLASSES}>
           {projects.map(project => (
-            <article key={project.id} className={CARD_CLASSES}>
+            <BorderGlow
+              key={project.id}
+              edgeSensitivity={30}
+              glowColor="40 80 80"
+              borderRadius={12}
+              glowRadius={40}
+              glowIntensity={1.0}
+              coneSpread={25}
+              animated={false}
+              colors={['#c084fc', '#f472b6', '#38bdf8']}
+              fillOpacity={0.0}
+              className="group p-6 rounded-xl border border-neutral-800 hover:border-indigo-500/50 hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-300"
+            >
               <div className="flex items-center gap-2 mb-3">
-                <span className={CARD_ID_CLASSES}>
+                <span className="text-xs text-indigo-400 font-mono">
                   {String(project.id).padStart(2, '0')}
                 </span>
               </div>
 
-              <h3 className={CARD_TITLE_CLASSES}>
+              <GradientText
+                colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
+                animationSpeed={3}
+                className="text-lg font-semibold mb-2"
+              >
                 <a href={project.demo} target="_blank" rel="noopener noreferrer" className="hover:underline">
                   {project.title}
                 </a>
-              </h3>
+              </GradientText>
 
-              <p className={CARD_DESC_CLASSES}>{project.description}</p>
+              <p className="text-sm text-neutral-400 leading-relaxed mb-4">{project.description}</p>
 
-              <div className={TECH_WRAPPER_CLASSES}>
+              <div className="flex flex-wrap gap-1.5 mb-4">
                 {project.techStack.map(tech => (
-                  <span key={tech} className={TECH_BADGE_CLASSES}>{tech}</span>
+                  <span key={tech} className="px-2 py-0.5 text-xs font-medium text-indigo-400 bg-indigo-900/30 rounded">{tech}</span>
                 ))}
               </div>
 
-              <div className={LINK_WRAPPER_CLASSES}>
-                <a href={project.github} target="_blank" rel="noopener noreferrer" className={LINK_CLASSES}>
+              <div className="flex gap-3 pt-2 border-t border-neutral-800">
+                <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-xs text-neutral-500 hover:text-indigo-400 transition-colors flex items-center gap-1">
                   <GithubIcon />
                   GitHub
                 </a>
-                <a href={project.demo} target="_blank" rel="noopener noreferrer" className={LINK_CLASSES}>
+                <a href={project.demo} target="_blank" rel="noopener noreferrer" className="text-xs text-neutral-500 hover:text-indigo-400 transition-colors flex items-center gap-1">
                   <DemoIcon />
                   Demo
                 </a>
               </div>
-            </article>
+            </BorderGlow>
           ))}
         </div>
       </div>

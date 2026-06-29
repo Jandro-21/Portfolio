@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { GoArrowUpRight } from 'react-icons/go'
 
 const NAV_LINKS = [
   { label: 'Projects', href: '#projects' },
@@ -6,80 +7,99 @@ const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ]
 
-export default function Navbar({ darkMode, toggleDark }) {
+const CARD_ITEMS = [
+  {
+    label: 'Projects',
+    bgColor: '#2F293A',
+    textColor: '#fff',
+    links: [
+      { label: 'View Projects', href: '#projects' },
+    ]
+  },
+  {
+    label: 'Experience',
+    bgColor: '#1B1722',
+    textColor: '#fff',
+    links: [
+      { label: 'Skills & Experience', href: '#experience' },
+    ]
+  },
+  {
+    label: 'Contact',
+    bgColor: '#2F293A',
+    textColor: '#fff',
+    links: [
+      { label: 'Get in Touch', href: '#contact' },
+    ]
+  },
+]
+
+export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
+  useEffect(() => {
+    if (!mobileOpen) return
+    const handleEsc = e => { if (e.key === 'Escape') setMobileOpen(false) }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [mobileOpen])
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/70 dark:bg-neutral-900/70 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <a href="#" className="text-lg font-bold text-indigo-600 dark:text-indigo-400">
-            Alejandro
-          </a>
+    <>
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-900/70 backdrop-blur-md border-b border-neutral-800">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <a href="#" className="text-lg font-bold text-indigo-400">
+              Alejandro
+            </a>
 
-          <div className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.map(link => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
+            <div className="hidden md:flex items-center gap-8">
+              {NAV_LINKS.map(link => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="text-sm text-neutral-400 hover:text-indigo-400 transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+
             <button
-              onClick={toggleDark}
-              className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
-              aria-label="Toggle dark mode"
+              className="md:hidden p-2 rounded-lg hover:bg-neutral-800 transition-colors"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
             >
-              {darkMode ? (
-                <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
-                </svg>
-              ) : (
-                <svg className="w-4 h-4 text-neutral-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                </svg>
-              )}
+              <svg className="w-5 h-5 text-neutral-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {mobileOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
             </button>
           </div>
-
-          <button
-            className="md:hidden p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {mobileOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
         </div>
+      </nav>
 
-        {mobileOpen && (
-          <div className="md:hidden pb-4 space-y-2">
-            {NAV_LINKS.map(link => (
+      {mobileOpen && (
+        <div className="md:hidden fixed inset-0 z-40 flex flex-col items-center justify-start pt-20 px-4 bg-black/60 backdrop-blur-sm" onClick={() => setMobileOpen(false)}>
+          <div className="w-full max-w-sm flex flex-col gap-4" onClick={e => e.stopPropagation()}>
+            {CARD_ITEMS.map(item => (
               <a
-                key={link.label}
-                href={link.href}
+                key={item.label}
+                href={item.links[0].href}
                 onClick={() => setMobileOpen(false)}
-                className="block text-sm text-neutral-600 dark:text-neutral-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                className="flex items-center justify-between p-5 rounded-xl transition-transform hover:scale-[1.02] active:scale-95"
+                style={{ backgroundColor: item.bgColor, color: item.textColor }}
               >
-                {link.label}
+                <span className="text-xl font-medium">{item.label}</span>
+                <GoArrowUpRight className="text-lg opacity-60" />
               </a>
             ))}
-            <button
-              onClick={toggleDark}
-              className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-            >
-              {darkMode ? 'Light Mode' : 'Dark Mode'}
-            </button>
           </div>
-        )}
-      </div>
-    </nav>
+        </div>
+      )}
+    </>
   )
 }
